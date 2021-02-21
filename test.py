@@ -3,6 +3,7 @@ import random
 import time
 from colr import color
 import sys
+from PIL import ImageGrab
 
 auraSdk = win32com.client.Dispatch("aura.sdk.1")
 
@@ -32,20 +33,26 @@ def get_light():
         except Exception as e:
             print(e)
             print(current_color)
+            print(dev.name)
             print("-----")
             print("-----")
             print("-----")
             print("-----")
 
-        # print(bar)
+        print(bar)
 
 
-def set_color():
-    selected=int(random.random()*3)
-    r =int(random.random()*255) if selected!=0 else 255 if random.random()>0.5 else 0
-    b = int(random.random()*255) if selected!=1 else 255 if random.random()>0.5 else 0
-    g = int(random.random()*255) if selected!=2 else 255 if random.random()>0.5 else 0
-    return formatted_color((r,g,b))
+def set_color(random=False):
+
+    if random:
+        selected=int(random.random()*3)
+        r =int(random.random()*255) if selected!=0 else 255 if random.random()>0.5 else 0
+        b = int(random.random()*255) if selected!=1 else 255 if random.random()>0.5 else 0
+        g = int(random.random()*255) if selected!=2 else 255 if random.random()>0.5 else 0
+        rgb=(r,g,b)
+    else:
+        rgb=(get_pixel_colour(3840, 720))
+    return formatted_color(rgb)
 
 
 def formatted_color(color):
@@ -55,6 +62,14 @@ def formatted_color(color):
     final_color = int(final_color, 16)
     return final_color
 
+
+def get_pixel_colour(i_x, i_y):
+    image0=ImageGrab.grab(bbox=None, include_layered_windows=False, all_screens=True, xdisplay=None)
+    size=image0.size
+    # print(size)
+    return image0.load()[i_x-1, i_y-1]
+ 
+
     
 
 
@@ -62,13 +77,11 @@ try:
     while(True):
         get_light()
         print("ctrl-c to exit")
-        time.sleep(1)
-        # for i in range(devices.count+2):
-        #     sys.stdout.write("\033[F") # Cursor up one line
-        # for i in range(devices.count+2):
-        #     print(" "*120)
-        # for i in range(devices.count+2):
-        #     sys.stdout.write("\033[F") # Cursor up one line
+        time.sleep(0.5)
+        for i in range(devices.count+2):
+            sys.stdout.write("\033[F") # Cursor up one line
+        print(" "*120)
+        sys.stdout.write("\033[F") # Cursor up one line
 
 
 except KeyboardInterrupt:

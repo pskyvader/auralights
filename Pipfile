@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 pywin32 = "*"
 colr = "*"
+pillow = "*"
 
 [dev-packages]
 
