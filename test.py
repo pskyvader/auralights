@@ -6,8 +6,10 @@ auraSdk.SwitchMode()
 
 devices = auraSdk.Enumerate(0)   # 0 means ALL
 for dev in devices:                      # Use enumeration
-    value=auraSdk.Enumerate(dev.Type)
-    print(value.count,value.item,)
-    print(dev,dev.Lights,dev.name,dev.Type)
+    print(dev,dev.Lights.count,dev.name,dev.Type,dev.width,dev.height)
+    for i in range(dev.Lights.Count):    # Use index
+        current_light=dev.lights(i)
+        # current_light.color = 0x0000FF00
+        print(current_light.name,hex(current_light.color),current_light.red)
 
 print("asd")
