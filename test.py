@@ -27,25 +27,34 @@ def get_light():
             current_light.color = current_color
             rgb = (current_light.red,current_light.green,current_light.blue)
             bar+=color('|',fore=rgb, back=rgb)
-        dev.Apply()
-        print(bar)
+        try:
+            dev.Apply()
+        except Exception as e:
+            print(e)
+            print(current_color)
+            print("-----")
+            print("-----")
+            print("-----")
+            print("-----")
+
+        # print(bar)
 
 
 def set_color():
-    r =int(random.random()*255) if random.random()>0.25 else 0
-    b = int(random.random()*255) if random.random()>0.25 else 0
-    g = int(random.random()*255) if random.random()>0.25 else 0
+    selected=int(random.random()*3)
+    r =int(random.random()*255) if selected!=0 else 255 if random.random()>0.5 else 0
+    b = int(random.random()*255) if selected!=1 else 255 if random.random()>0.5 else 0
+    g = int(random.random()*255) if selected!=2 else 255 if random.random()>0.5 else 0
+    return formatted_color((r,g,b))
 
-    print((r,g,b))
-    color='0x00%02x%02x%02x' % (b, g, r)
-    print(color,type(color))
-    color = int(color, 16)
-    # print(color,hex(color))
-    return color
-    print(color,type(color))
-    color = hex(color)
-    print(color,type(color))
-    return color
+
+def formatted_color(color):
+    print(color)
+    r,g,b=color
+    final_color='0x00%02x%02x%02x' % (b,g,r)
+    final_color = int(final_color, 16)
+    return final_color
+
     
 
 
@@ -54,7 +63,13 @@ try:
         get_light()
         print("ctrl-c to exit")
         time.sleep(1)
-        for i in range(devices.count+3):
-            sys.stdout.write("\033[F") # Cursor up one line
+        # for i in range(devices.count+2):
+        #     sys.stdout.write("\033[F") # Cursor up one line
+        # for i in range(devices.count+2):
+        #     print(" "*120)
+        # for i in range(devices.count+2):
+        #     sys.stdout.write("\033[F") # Cursor up one line
+
+
 except KeyboardInterrupt:
     print("Stopped")
