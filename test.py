@@ -6,6 +6,30 @@ import sys
 from PIL import ImageGrab
 from os import system
 
+
+device_list = [
+    {"name": "Dram 1", "count": 5},
+    {"name": "Dram 2", "count": 5},
+    {"name": "MousePad", "count": 15},
+    {"name": "Mainboard_Master", "count": 10},
+    {"name": "AddressableStrip 1", "count": 12},
+    {"name": "AddressableStrip 12", "count": 24},
+]
+
+motherboard_list = [
+    "Back IO",
+    "Back IO",
+    "Back IO",
+    "Back IO",
+    "PCH",
+    "PCH",
+    "PCH",
+    "PCH",
+    "RGB HEADER",
+    "RGB HEADER",
+]
+
+
 auraSdk = win32com.client.Dispatch("aura.sdk.1")
 
 auraSdk.SwitchMode()
@@ -21,15 +45,21 @@ for i in range(devices_count):
 
 def get_light():
     current_color = set_color()
-    previous_colors.pop()
-    previous_colors.insert(0, current_color)
+    #insert at the begining
+    # previous_colors.pop()
+    # previous_colors.insert(0, current_color)
+    
+    # insert at the end
+    previous_colors.pop(0)
+    previous_colors.append(current_color)
+
 
     # current_light=devices(0).lights(0)
     # rgb = (current_light.red,current_light.green,current_light.blue)
     # print(rgb,hex(current_light.color),current_light)
 
-    for i in range(devices_count):                      # Use enumeration
-         change_color(devices(i),previous_colors[i])
+    for i in range(devices_count):  # Use enumeration
+        change_color(devices(i), previous_colors[i])
     # change_color(devices(current_device), current_color)
 
 
@@ -39,7 +69,6 @@ def change_color(dev, current_color):
     bar = ""
     for i in range(dev.Lights.count):  # Use index
         current_light = dev.lights(i)
-        # print(rgb,hex(current_light.color),current_light.color)
         current_light.color = current_color
         rgb = (current_light.red, current_light.green, current_light.blue)
         bar += color("|", fore=rgb, back=rgb)
@@ -106,17 +135,12 @@ def get_pixel_colour(i_x, i_y):
     # print(size)
     return image0.load()[0, 0]
 
-dev=devices(3)
-dev.lights(1).color=0
-dev.Apply()
-
-time.sleep(10)
 
 try:
-    while False:
+    while True:
         get_light()
         print("ctrl-c to exit")
-        time.sleep(0.1)
+        time.sleep(0.05)
         system("cls")
 
 
