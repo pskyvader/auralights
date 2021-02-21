@@ -32,16 +32,19 @@ def get_light():
 
 
 def set_color():
-    r =int(random.random()*255)
-    b = int(random.random()*255)
-    g = int(random.random()*255)
+    r =int(random.random()*255) if random.random()>0.25 else 0
+    b = int(random.random()*255) if random.random()>0.25 else 0
+    g = int(random.random()*255) if random.random()>0.25 else 0
 
+    print((r,g,b))
     color='0x00%02x%02x%02x' % (b, g, r)
-    return color
-    print(color)
+    print(color,type(color))
     color = int(color, 16)
+    # print(color,hex(color))
+    return color
+    print(color,type(color))
     color = hex(color)
-    print(color)
+    print(color,type(color))
     return color
     
 
@@ -51,7 +54,7 @@ try:
         get_light()
         print("ctrl-c to exit")
         time.sleep(1)
-        for i in range(devices.count+1):
+        for i in range(devices.count+3):
             sys.stdout.write("\033[F") # Cursor up one line
 except KeyboardInterrupt:
     print("Stopped")
