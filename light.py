@@ -5,29 +5,43 @@ import config
 
 auraSdk = win32com.client.Dispatch("aura.sdk.1")
 auraSdk.SwitchMode()
-devices = auraSdk.Enumerate(0)  # 0 means ALL
-devices_count = devices.count
+devs = auraSdk.Enumerate(0)  # 0 means ALL
+devices,devices_light_count=config.get_device_list(devs)
+devices_count = len(devices)
 previous_colors = []
 for i in range(devices_count):
     previous_colors.append(0)
 
+
+
+
 def update_light():
     if config.MODE==config.MODES.RANDOM:
         update_light_random()
+    elif config.MODE==config.MODES.SCREEN:
+        update_light_screen()
     elif config.MODE==config.MODES.SCREEN_RAINBOW_HORIZONTAL:
-        update_light_scren_rainbow_horizontal()
+        update_light_screen_rainbow_horizontal()
         
 
 def update_light_random():
     current_color = get_random_color()
     for i in range(devices_count):
-        change_light(devices(i), current_color)
+        change_light(devices[i], current_color,devices_light_count[i])
     
     for i in range(devices_count):
-        apply_device(devices(i), current_color)
+        apply_device(devices[i], current_color)
+
+def update_light_screen():
+    current_color = get_color_from_screen_pixel()
+    for i in range(devices_count):
+        change_light(devices[i], current_color,devices_light_count[i])
+    
+    for i in range(devices_count):
+        apply_device(devices[i], current_color)
 
 
-def update_light_scren_rainbow_horizontal():
+def update_light_screen_rainbow_horizontal():
     current_color = get_color_from_screen_pixel()
     if config.DIRECTION==config.DIRECTIONS.FORWARDS:
         # insert at the begining
@@ -39,16 +53,14 @@ def update_light_scren_rainbow_horizontal():
         previous_colors.append(current_color)
 
     for i in range(devices_count):
-        change_light(devices(i), current_color)
+        change_light(devices[i], previous_colors[i],devices_light_count[i])
     
     for i in range(devices_count):
-        apply_device(devices(i), current_color)
+        apply_device(devices[i], previous_colors[i])
 
 
 
-def change_light(dev, current_color):
-    current_device=config.get_device(dev.name)
-    lights_count=current_device["count"] or dev.Lights.count
+def change_light(dev, current_color,lights_count):
     
     bar = ""
     for i in range(lights_count):  # Use index
