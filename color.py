@@ -3,16 +3,17 @@ import random
 import config
 
 
-def get_color(setrandom=False):
+def get_color_from_screen_pixel():
     position=config.position
-    if setrandom:
-        selected = int(random.random() * 3)
-        r = get_random(selected, 0)
-        b = get_random(selected, 1)
-        g = get_random(selected, 2)
-        rgb = (r, g, b)
-    else:
-        rgb = get_pixel_colour(position[0], position[1])
+    rgb = get_pixel_colour(position[0], position[1])
+    return formatted_color(rgb)
+
+def get_random_color():
+    selected = int(random.random() * 3)
+    r = get_random(selected, 0)
+    b = get_random(selected, 1)
+    g = get_random(selected, 2)
+    rgb = (r, g, b)
     return formatted_color(rgb)
 
 

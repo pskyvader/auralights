@@ -1,6 +1,7 @@
 import win32com.client
 from colr import color
-from color import get_color
+from color import get_color_from_screen_pixel,get_random_color
+import config
 
 auraSdk = win32com.client.Dispatch("aura.sdk.1")
 auraSdk.SwitchMode()
@@ -11,25 +12,46 @@ for i in range(devices_count):
     previous_colors.append(0)
 
 def update_light():
-    current_color = get_color()
-    # insert at the begining
-    # previous_colors.pop()
-    # previous_colors.insert(0, current_color)
+    if config.MODE==config.MODES.RANDOM:
+        update_light_random()
+    elif config.MODE==config.MODES.SCREEN_RAINBOW_HORIZONTAL:
+        update_light_scren_rainbow_horizontal()
+        
 
-    # insert at the end
-    previous_colors.pop(0)
-    previous_colors.append(current_color)
+def update_light_random():
+    current_color = get_random_color()
+    for i in range(devices_count):
+        change_light(devices(i), current_color)
+    
+    for i in range(devices_count):
+        apply_device(devices(i), current_color)
 
-    for i in range(devices_count):  # Use enumeration
-        change_light(devices(i), previous_colors[i])
-        apply_device(devices(i), previous_colors[i])
 
+def update_light_scren_rainbow_horizontal():
+    current_color = get_color_from_screen_pixel()
+    if config.DIRECTION==config.DIRECTIONS.FORWARDS:
+        # insert at the begining
+        previous_colors.pop()
+        previous_colors.insert(0, current_color)
+    elif config.DIRECTION==config.DIRECTIONS.BACKWARDS:
+        # insert at the end
+        previous_colors.pop(0)
+        previous_colors.append(current_color)
+
+    for i in range(devices_count):
+        change_light(devices(i), current_color)
+    
+    for i in range(devices_count):
+        apply_device(devices(i), current_color)
 
 
 
 def change_light(dev, current_color):
+    current_device=config.get_device(dev.name)
+    lights_count=current_device["count"] or dev.Lights.count
+    
     bar = ""
-    for i in range(dev.Lights.count):  # Use index
+    for i in range(lights_count):  # Use index
         current_light = dev.lights(i)
         current_light.color = current_color
         rgb = (current_light.red, current_light.green, current_light.blue)
