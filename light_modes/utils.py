@@ -9,7 +9,7 @@ def change_light(dev, current_color,lights_count):
     print(bar)
 
 
-def apply_device(dev, current_color):
+def apply_device(dev, current_color,auraSdk):
     try:
         dev.Apply()
     except Exception as e:
