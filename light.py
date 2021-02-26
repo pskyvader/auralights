@@ -1,7 +1,9 @@
+from light_modes import *
 import win32com.client
-from colr import color
-from color import get_color_from_screen_pixel,get_random_color
+from color import get_color_from_screen_pixel
 import config
+
+
 
 auraSdk = win32com.client.Dispatch("aura.sdk.1")
 auraSdk.SwitchMode()
@@ -17,20 +19,12 @@ for i in range(devices_count):
 
 def update_light():
     if config.MODE==config.MODES.RANDOM:
-        update_light_random()
+        light_random.light_random(devices,devices_light_count)
     elif config.MODE==config.MODES.SCREEN:
         update_light_screen()
     elif config.MODE==config.MODES.SCREEN_RAINBOW_HORIZONTAL:
         update_light_screen_rainbow_horizontal()
         
-
-def update_light_random():
-    current_color = get_random_color()
-    for i in range(devices_count):
-        change_light(devices[i], current_color,devices_light_count[i])
-    
-    for i in range(devices_count):
-        apply_device(devices[i], current_color)
 
 def update_light_screen():
     current_color = get_color_from_screen_pixel()
@@ -59,27 +53,3 @@ def update_light_screen_rainbow_horizontal():
         apply_device(devices[i], previous_colors[i])
 
 
-
-def change_light(dev, current_color,lights_count):
-    
-    bar = ""
-    for i in range(lights_count):  # Use index
-        current_light = dev.lights(i)
-        current_light.color = current_color
-        rgb = (current_light.red, current_light.green, current_light.blue)
-        bar += color("|", fore=rgb, back=rgb)
-    print(bar)
-
-
-def apply_device(dev, current_color):
-    try:
-        dev.Apply()
-    except Exception as e:
-        print(e)
-        print(current_color)
-        print(dev.name)
-        print("-----")
-        print("-----")
-        print("-----")
-        print("-----")
-        auraSdk.SwitchMode()
