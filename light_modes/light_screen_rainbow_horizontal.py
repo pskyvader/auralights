@@ -3,7 +3,11 @@ from . import utils
 import config
 
 
-def light_screen_rainbow_horizontal(devices,devices_light_count,previous_colors,auraSdk):
+def light_screen_rainbow_horizontal(board):
+    devices=board.devices
+    devices_count=board.devices_count
+    previous_colors=board.previous_colors
+
     devices_count=len(devices)
     current_color = get_color_from_screen_pixel()
     if config.DIRECTION==config.DIRECTIONS.FORWARDS:
@@ -16,8 +20,8 @@ def light_screen_rainbow_horizontal(devices,devices_light_count,previous_colors,
         previous_colors.append(current_color)
 
     for i in range(devices_count):
-        utils.change_light(devices[i], previous_colors[i],devices_light_count[i])
+        utils.change_light(devices[i], previous_colors[i],board.devices_light_count[i])
     
     for i in range(devices_count):
-        utils.apply_device(devices[i], previous_colors[i],auraSdk)
+        utils.apply_device(devices[i], previous_colors[i],board.auraSdk)
 
