@@ -21,26 +21,6 @@ device_list = [
     {"name": "MousePad", "count": 15,"active":True},
 ]
 
-def get_device(name):
-    return next((item for item in device_list if item["name"] == name and item["active"]), None)
-
-def get_device_list(devs):
-    devices=[]
-    devices_light_count=[]
-    for i in range(len(device_list)):
-        devices.append(None)
-        devices_light_count.append(None)
-
-
-    for dev in devs:
-        position=next((i for i, item in enumerate(device_list) if item["name"] == dev.name and item["active"]), None)
-        count=get_device(dev.name)['count']
-        if position!=None:
-            devices[position]=dev
-            devices_light_count[position]=count
-
-    return (devices,devices_light_count)
-
 motherboard_list = [
     "Back IO",
     "Back IO",
