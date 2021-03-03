@@ -8,14 +8,18 @@ def get_color_from_screen_pixel():
     rgb = get_pixel_colour(position[0], position[1])
     return formatted_color(rgb)
 
-def get_random_color():
+def get_random_color(board):
     selected = int(random.random() * 3)
     r = get_random(selected, 0)
     b = get_random(selected, 1)
     g = get_random(selected, 2)
     rgb = (r, g, b)
-    return formatted_color(rgb)
-
+    current_color= formatted_color(rgb)
+    for i in range(len(board)):
+        row=board[i]
+        for j in range(len(row)):
+            board[i][j]=current_color
+    return board
 
 def get_random(selected, pos):
     if selected != pos:
