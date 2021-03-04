@@ -10,7 +10,7 @@ class DIRECTIONS:
 
 
 position = (3840, 720)  # pixel for get color from screen
-pause = 0.01  # pause between every update. in seconds
+pause = 5  # pause between every update. in seconds
 width = 24
 height = 8
 
@@ -139,5 +139,5 @@ motherboard_list = [
 ]
 
 
-MODE = MODES.RANDOM
+MODE = MODES.SCREEN_RAINBOW_HORIZONTAL
 DIRECTION = DIRECTIONS.FORWARDS
