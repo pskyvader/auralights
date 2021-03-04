@@ -9,11 +9,11 @@ class device_light:
         self.lights=[]
         for i in range(len(element['lights'])):  # Use index
             current_light = {'light':dev.lights(i),'position':element['lights'][i]}
-            if current_light["position"][0]>config.height:
-                current_light["position"][0]=config.height
+            # if current_light["position"][0]>config.height:
+            #     current_light["position"][0]=config.height
 
-            if current_light["position"][1]>config.width:
-                current_light["position"][1]=config.width
+            # if current_light["position"][1]>config.width:
+            #     current_light["position"][1]=config.width
 
             self.lights.append(current_light)
             
