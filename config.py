@@ -10,7 +10,7 @@ class DIRECTIONS:
 
 
 position = (3840, 720)  # pixel for get color from screen
-pause = 1  # pause between every update. in seconds
+pause = 0.01  # pause between every update. in seconds
 width = 24
 height = 8
 
@@ -37,38 +37,38 @@ device_list = [
     {
         "name": "Mainboard_Master",
         "lights": [
-            [0, 0],
-            [0, 1],
-            [0, 2],
-            [0, 3],
-            [0, 4],
-            [0, 5],
-            [0, 6],
-            [0, 7],
-            [0, 8],
-            [0, 9],
+            [2, 0],
+            [2, 2],
+            [3, 4],
+            [3, 6],
+            [4, 12],
+            [4, 14],
+            [5, 16],
+            [6, 18],
+            [3, 23],
+            [6, 23],
         ],
         "active": True,
     },
     {
         "name": "Dram 1",
         "lights": [
-            [0, 0],
-            [0, 1],
-            [0, 2],
-            [0, 3],
-            [0, 4],
+            [2, 11],
+            [3, 11],
+            [4, 11],
+            [5, 11],
+            [6, 11],
         ],
         "active": True,
     },
     {
         "name": "Dram 2",
         "lights": [
-            [0, 0],
-            [0, 1],
-            [0, 2],
-            [0, 3],
-            [0, 4],
+            [2, 13],
+            [3, 13],
+            [4, 13],
+            [5, 13],
+            [6, 13],
         ],
         "active": True,
     },
@@ -110,17 +110,14 @@ device_list = [
             [7, 11],
             [7, 17],
             [7, 23],
-
             [5, 23],
             [3, 23],
             [0, 23],
-            
             [0, 17],
             [0, 13],
             [0, 9],
             [0, 5],
             [0, 0],
-
             [3, 0],
             [5, 0],
         ],
@@ -142,5 +139,5 @@ motherboard_list = [
 ]
 
 
-MODE = MODES.SCREEN_RAINBOW_HORIZONTAL
-DIRECTION = DIRECTIONS.FORWARDS
+MODE = MODES.SCREEN
+DIRECTION = DIRECTIONS.BACKWARDS
