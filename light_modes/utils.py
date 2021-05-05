@@ -10,6 +10,7 @@ def apply_light(board):
 
 def change_light(device, board):
     bar = ""
+    # print(len(device.lights))
     for i in range(len(device.lights)):  # Use index
         current_light = device.lights[i]
         x=current_light['position'][0]
