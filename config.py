@@ -10,7 +10,7 @@ class DIRECTIONS:
 
 
 position = (3840, 720)  # pixel for get color from screen
-pause = 0.05  # pause between every update. in seconds
+pause = 0.10  # pause between every update. in seconds
 width = 120
 height = 8
 
